@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: postgresql-pod
+  name: postgresql-pod
+  annotations:
+    seccomp.security.alpha.kubernetes.io/pod: localhost/default.json
+spec:
+  restartPolicy: OnFailure
+  hostNetwork: true
+  containers:
+  - name: srv01
+    image: docker.io/postgres:14.2-alpine
+    args: ['-c', 'config_file=/etc/postgresql/postgresql.conf', '-c', 'hba_file=/etc/postgresql/pg_hba.conf']
+    securityContext:
+      allowPrivilegeEscalation: false
+      privileged: false
+      capabilities:
+        add: []
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        type: postgresql_podman.process
+    resources:
+      requests:
+        memory: 1000Mi
+        cpu: 1000m
+      limits:
+        memory: 1000Mi
+        cpu: 1000m
+    env:
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        configMapKeyRef:
+          name: postgresql-configmap
+          key: postgresql_password
+    - name: POSTGRES_USER
+      valueFrom:
+        configMapKeyRef:
+          name: postgresql-configmap
+          key: postgresql_user
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: postgresql-data
+    - mountPath: /etc/postgresql/postgresql.conf
+      name: postgresql-custom-config
+      readOnly: true
+    - mountPath: /etc/postgresql/pg_hba.conf
+      name: postgresql-custom-hba
+      readOnly: true
+  volumes:
+  - name: postgresql-custom-config
+    hostPath:
+      path: ./configs/postgresql.conf
+  - name: postgresql-custom-hba
+    hostPath:
+      path: ./configs/pg_hba.conf
+  - name: postgresql-data
+    persistentVolumeClaim:
+      claimName: postgresql-data

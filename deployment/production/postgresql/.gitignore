@@ -1,0 +1,7 @@
+configmaps/*
+!configmaps/*.example
+
+configs/*
+!configs/*.example
+
+postgresql-pod.yaml
