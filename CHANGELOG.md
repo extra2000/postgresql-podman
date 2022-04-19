@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.2](https://github.com/extra2000/postgresql-podman/compare/v1.0.1...v1.0.2) (2022-04-19)
+
+
+### Fixes
+
+* **pg_hba:** fix permission issues for other users ([1d4da2e](https://github.com/extra2000/postgresql-podman/commit/1d4da2ea828801c3ff2db3a13142d6b83d0832b3))
+
 ### [1.0.1](https://github.com/extra2000/postgresql-podman/compare/v1.0.0...v1.0.1) (2022-04-19)
 
 
