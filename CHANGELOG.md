@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.0.1](https://github.com/extra2000/postgresql-podman/compare/v1.0.0...v1.0.1) (2022-04-19)
+
+
+### Fixes
+
+* **configs:** fix `could not open shared memory segment` ([c6deaa3](https://github.com/extra2000/postgresql-podman/commit/c6deaa369b8c548e4fb1fd7bd8666c4d6f09200d))
+
 ## 1.0.0 (2022-04-18)
 
 
